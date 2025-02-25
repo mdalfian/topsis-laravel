@@ -1,4 +1,4 @@
-@extends('admin/layout')
+@extends('leader/layout')
 
 @section('content')
 
@@ -12,12 +12,12 @@
         </div>
         <div class="card-body">
             <!-- Add Button -->
-            {{-- <button class="btn btn-primary btn-icon-split mb-3" data-toggle="modal" data-target="#addModal">
+            <button class="btn btn-primary btn-icon-split mb-3" data-toggle="modal" data-target="#addModal">
                 <span class="icon text-white-50">
                     <i class="fas fa-plus"></i>
                 </span>
                 <span class="text">Tambah</span>
-            </button> --}}
+            </button>
 
             <div class="table-responsive">
                 <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">

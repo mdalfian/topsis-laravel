@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Waktu pembuatan: 21 Feb 2025 pada 09.53
+-- Waktu pembuatan: 25 Feb 2025 pada 02.47
 -- Versi server: 10.4.32-MariaDB
 -- Versi PHP: 8.2.12
 
@@ -85,7 +85,8 @@ CREATE TABLE `divisi` (
 INSERT INTO `divisi` (`id_divisi`, `nama_divisi`) VALUES
 (1, 'HR'),
 (2, 'General'),
-(3, 'Sales');
+(3, 'Sales'),
+(4, 'Produksi');
 
 -- --------------------------------------------------------
 
@@ -122,7 +123,8 @@ CREATE TABLE `jabatan` (
 INSERT INTO `jabatan` (`id_jabatan`, `nama_jabatan`, `id_divisi`) VALUES
 (3, 'Staff HR', 1),
 (4, 'Sales A', 3),
-(5, 'General Manager', 2);
+(5, 'General Manager', 2),
+(6, 'Leader Line', 4);
 
 -- --------------------------------------------------------
 
@@ -264,6 +266,7 @@ CREATE TABLE `sessions` (
 --
 
 INSERT INTO `sessions` (`id`, `user_id`, `ip_address`, `user_agent`, `payload`, `last_activity`) VALUES
+('jq1OnLUhjvtG8jxvpmgcbBE4bqDGqMCbMxvgbhjr', 5, '127.0.0.1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/133.0.0.0 Safari/537.36', 'YTo0OntzOjY6Il90b2tlbiI7czo0MDoickpPZ3dFbnBpWHRrb2xxSTM0bzFHTDB3dzJQempQQlJYeVhlcHpqayI7czo2OiJfZmxhc2giO2E6Mjp7czozOiJvbGQiO2E6MDp7fXM6MzoibmV3IjthOjA6e319czo5OiJfcHJldmlvdXMiO2E6MTp7czozOiJ1cmwiO3M6Mzk6Imh0dHA6Ly8xMjcuMC4wLjE6ODAwMC9sZWFkZXIvYWx0ZXJuYXRpZiI7fXM6NTA6ImxvZ2luX3dlYl81OWJhMzZhZGRjMmIyZjk0MDE1ODBmMDE0YzdmNThlYTRlMzA5ODlkIjtpOjU7fQ==', 1740448031),
 ('zqLEE8T4z466lNiifZpRhh15lYDiJTKLd1uEFd7U', NULL, '127.0.0.1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/133.0.0.0 Safari/537.36', 'YTozOntzOjY6Il90b2tlbiI7czo0MDoiM04wY2s4emZEcnVUSzMxYlo1Qk5IaGJ0RFdVSFhTOTZjdmxvckFHUSI7czo2OiJfZmxhc2giO2E6Mjp7czozOiJvbGQiO2E6MDp7fXM6MzoibmV3IjthOjA6e319czo5OiJfcHJldmlvdXMiO2E6MTp7czozOiJ1cmwiO3M6MjE6Imh0dHA6Ly8xMjcuMC4wLjE6ODAwMCI7fX0=', 1740126384);
 
 -- --------------------------------------------------------
@@ -315,7 +318,7 @@ CREATE TABLE `users` (
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL,
   `id_jabatan` int(11) NOT NULL,
-  `level` enum('Admin','Pemilik','Karyawan') NOT NULL
+  `level` enum('Admin','Pemilik','Karyawan','Leader') NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
@@ -325,7 +328,8 @@ CREATE TABLE `users` (
 INSERT INTO `users` (`id`, `name`, `username`, `password`, `remember_token`, `created_at`, `updated_at`, `id_jabatan`, `level`) VALUES
 (1, 'Administrator', 'admin', '$2y$12$nMSNzNzq7gW8OICrCqCqMubXQXykhuhNe07RTiRAdWotdE4U48X6y', NULL, NULL, NULL, 3, 'Admin'),
 (3, 'Aldo Harsanto', 'aldo', '$2y$12$oSQCcl.dRnYY.TMjuIQSkeHn5.TLgzJ9hAEd1zBs.0UC/H3w0kvYu', NULL, NULL, NULL, 5, 'Pemilik'),
-(4, 'Ari Ramdhani', 'ariram', '$2y$12$GdJ3ufg98GVYHBqDrAy45eneLww.KQGRbvaVYDc8slX7td4b.pj9K', NULL, NULL, NULL, 4, 'Karyawan');
+(4, 'Ari Ramdhani', 'ariram', '$2y$12$GdJ3ufg98GVYHBqDrAy45eneLww.KQGRbvaVYDc8slX7td4b.pj9K', NULL, NULL, NULL, 4, 'Karyawan'),
+(5, 'Bayu Saptaji', 'bayu', '$2y$12$DJsM.ZhRnTzdQu5STp6Jwu4nbP42oiIyRbPm9ySVIoLd0o9rbJqQG', NULL, NULL, NULL, 6, 'Leader');
 
 --
 -- Indexes for dumped tables
@@ -438,13 +442,13 @@ ALTER TABLE `users`
 -- AUTO_INCREMENT untuk tabel `alternatif`
 --
 ALTER TABLE `alternatif`
-  MODIFY `id_alternatif` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `id_alternatif` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
 -- AUTO_INCREMENT untuk tabel `divisi`
 --
 ALTER TABLE `divisi`
-  MODIFY `id_divisi` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `id_divisi` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- AUTO_INCREMENT untuk tabel `failed_jobs`
@@ -456,7 +460,7 @@ ALTER TABLE `failed_jobs`
 -- AUTO_INCREMENT untuk tabel `jabatan`
 --
 ALTER TABLE `jabatan`
-  MODIFY `id_jabatan` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `id_jabatan` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
 -- AUTO_INCREMENT untuk tabel `jobs`
@@ -492,7 +496,7 @@ ALTER TABLE `sub_kriteria`
 -- AUTO_INCREMENT untuk tabel `users`
 --
 ALTER TABLE `users`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- Ketidakleluasaan untuk tabel pelimpahan (Dumped Tables)

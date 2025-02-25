@@ -9,7 +9,7 @@
     <meta name="description" content="">
     <meta name="author" content="">
 
-    <title><?= $title ?></title>
+    <title>Leader - <?= $title ?></title>
 
     <!-- Custom fonts for this template-->
     <link href="{{asset('template/vendor/fontawesome-free/css/all.min.css')}}" rel="stylesheet" type="text/css">
@@ -47,7 +47,19 @@
             </a>
 
             <!-- Divider -->
-            <hr class="sidebar-divider my-0">
+            <hr class="sidebar-divider">
+
+            <!-- Heading -->
+            <div class="sidebar-heading">
+                Data Penilaian
+            </div>
+
+            <!-- Nav Item - Dashboard -->
+            <li class="nav-item <?= $title == 'Alternatif' ? 'active' : "" ?>">
+                <a class="nav-link" href="{{'alternatif'}}">
+                    <i class="fas fa-users"></i>
+                    <span>Alternatif</span></a>
+            </li>
 
             <!-- Nav Item - Dashboard -->
             <li class="nav-item <?= $title == 'Perhitungan' ? 'active' : "" ?>">
@@ -56,14 +68,12 @@
                     <span>Perhitungan</span></a>
             </li>
 
-            <li class="nav-item <?= $title == 'Profil' ? 'active' : "" ?>">
-                <a class="nav-link" href="{{'profil'}}">
-                    <i class="fas fa-user"></i>
-                    <span>Profil</span></a>
-           </li>
 
-            <!-- Divider -->
-            <hr class="sidebar-divider my-0">
+            <li class="nav-item <?= $title == 'Profil' ? 'active' : "" ?>">
+                 <a class="nav-link" href="{{'profil'}}">
+                     <i class="fas fa-user"></i>
+                     <span>Profil</span></a>
+            </li>
 
             <!-- Divider -->
             <hr class="sidebar-divider d-none d-md-block">
@@ -130,6 +140,7 @@
 
                 </nav>
                 <!-- End of Topbar -->
+
 
                 @yield('content')
 
@@ -262,7 +273,9 @@
         })
 
         // Hapus User
-        function hapus_user(id) {
+        $('.btn-delete-user').click(function(event){
+            event.preventDefault();
+            var form = $(this).closest('form');
             Swal.fire({
                 title: 'Apakah anda yakin?',
                 text: "Anda akan menghapus user!",
@@ -273,11 +286,235 @@
                 confirmButtonText: 'Hapus'
             }).then((result) => {
                 if (result.isConfirmed) {
-                    window.location.href = '' + id;
+                    form.submit();
+                }
+            })
+        })
+
+        // Hapus Divisi
+        $('.btn-delete-divisi').click(function(event){
+            event.preventDefault();
+            var form = $(this).closest('form');
+            Swal.fire({
+                title: 'Apakah anda yakin?',
+                text: "Anda akan menghapus divisi!",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#d33',
+                cancelButtonColor: '#3085d6',
+                confirmButtonText: 'Hapus'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    form.submit();
+                }
+            })
+        })
+
+        // Hapus jabatan
+        $('.btn-delete-jabatan').click(function(event){
+            event.preventDefault();
+            var form = $(this).closest('form');
+            Swal.fire({
+                title: 'Apakah anda yakin?',
+                text: "Anda akan menghapus jabatan!",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#d33',
+                cancelButtonColor: '#3085d6',
+                confirmButtonText: 'Hapus'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    form.submit();
+                }
+            })
+        })
+
+        // Check Kriteria
+        $('#kode_kriteria_add').keyup(function(){
+            var kode = $(this).val();
+            var token = '@csrf';
+            $.ajax({
+                method: 'POST',
+                url: '{{Route("check_kriteria")}}',
+                data: {
+                    "kode": kode,
+                    "_token" : "{{ csrf_token() }}",
+                    'nama': ''
+                },
+                success:function(result){
+                    if(result > 0){
+                        $('#addBtnKri').attr('disabled', true);
+                        $('#kode_kriteria_add').addClass('is-invalid');
+                    } else{
+                        $('#addBtnKri').attr('disabled', false);
+                        $('#kode_kriteria_add').removeClass('is-invalid');
+                    }
+                }
+            })
+        })
+        $('#nama_kriteria_add').keyup(function(){
+            var nama = $(this).val();
+            var token = '@csrf';
+            $.ajax({
+                method: 'POST',
+                url: '{{Route("check_kriteria")}}',
+                data: {
+                    "kode": '',
+                    "_token" : "{{ csrf_token() }}",
+                    'nama': nama
+                },
+                success:function(result){
+                    if(result > 0){
+                        $('#addBtnKri').attr('disabled', true);
+                        $('#nama_kriteria_add').addClass('is-invalid');
+                    } else{
+                        $('#addBtnKri').attr('disabled', false);
+                        $('#nama_kriteria_add').removeClass('is-invalid');
+                    }
+                }
+            })
+        })
+        // $('#kode_kriteria_edit').keyup(function(){
+        //     var kode = $(this).val();
+        //     var token = '@csrf';
+        //     $.ajax({
+        //         method: 'POST',
+        //         url: '{{Route("check_kriteria")}}',
+        //         data: {
+        //             "kode": kode,
+        //             "_token" : "{{ csrf_token() }}",
+        //             'nama': ''
+        //         },
+        //         success:function(result){
+        //             if(result > 0){
+        //                 $('#editBtnKri').attr('disabled', true);
+        //                 $('#kode_kriteria_edit').addClass('is-invalid');
+        //             } else{
+        //                 $('#editBtnKri').attr('disabled', false);
+        //                 $('#kode_kriteria_edit').removeClass('is-invalid');
+        //             }
+        //         }
+        //     })
+        // })
+        // $('#nama_kriteria_edit').keyup(function(){
+        //     var nama = $(this).val();
+        //     var token = '@csrf';
+        //     $.ajax({
+        //         method: 'POST',
+        //         url: '{{Route("check_kriteria")}}',
+        //         data: {
+        //             "kode": '',
+        //             "_token" : "{{ csrf_token() }}",
+        //             'nama': nama
+        //         },
+        //         success:function(result){
+        //             if(result > 0){
+        //                 $('#editBtnKri').attr('disabled', true);
+        //                 $('#nama_kriteria_edit').addClass('is-invalid');
+        //             } else{
+        //                 $('#editBtnKri').attr('disabled', false);
+        //                 $('#nama_kriteria_edit').removeClass('is-invalid');
+        //             }
+        //         }
+        //     })
+        // })
+
+        // check sub kriteria
+        function check_sub(id){
+            var nama = $('#nama_sub_kriteria_add').val();
+            
+            $.ajax({
+                method: 'POST',
+                url: '{{Route("check_sub")}}',
+                data: {
+                    "_token" : "{{ csrf_token() }}",
+                    'nama': nama,
+                    'id': id
+                },
+                success:function(result){
+                    if(result > 0){
+                        $('#addBtnSub').attr('disabled', true);
+                        $('#nama_sub_kriteria_add').addClass('is-invalid');
+                    } else{
+                        $('#addBtnSub').attr('disabled', false);
+                        $('#nama_sub_kriteria_add').removeClass('is-invalid');
+                    }
                 }
             })
         }
 
+        // check alternatif
+        $('#nama_alternatif_add').keyup(function(){
+            var nama = $(this).val();
+            var token = '@csrf';
+            $.ajax({
+                method: 'POST',
+                url: '{{Route("check_alternatif")}}',
+                data: {
+                    "kode": '',
+                    "_token" : "{{ csrf_token() }}",
+                    'nama': nama
+                },
+                success:function(result){
+                    if(result > 0){
+                        $('#addBtnAlt').attr('disabled', true);
+                        $('#nama_alternatif_add').addClass('is-invalid');
+                    } else{
+                        $('#addBtnAlt').attr('disabled', false);
+                        $('#nama_alternatif_add').removeClass('is-invalid');
+                    }
+                }
+            })
+        })
+
+        // check divisi
+        $('#nama_divisi_add').keyup(function(){
+            var nama = $(this).val();
+            var token = '@csrf';
+            $.ajax({
+                method: 'POST',
+                url: '{{Route("check_divisi")}}',
+                data: {
+                    "kode": '',
+                    "_token" : "{{ csrf_token() }}",
+                    'nama': nama
+                },
+                success:function(result){
+                    if(result > 0){
+                        $('#addBtnDiv').attr('disabled', true);
+                        $('#nama_divisi_add').addClass('is-invalid');
+                    } else{
+                        $('#addBtnDiv').attr('disabled', false);
+                        $('#nama_divisi_add').removeClass('is-invalid');
+                    }
+                }
+            })
+        })
+
+        // check jabatan
+        $('#nama_jabatan_add').keyup(function(){
+            var nama = $(this).val();
+            var token = '@csrf';
+            $.ajax({
+                method: 'POST',
+                url: '{{Route("check_jabatan")}}',
+                data: {
+                    "kode": '',
+                    "_token" : "{{ csrf_token() }}",
+                    'nama': nama
+                },
+                success:function(result){
+                    if(result > 0){
+                        $('#addBtnJab').attr('disabled', true);
+                        $('#nama_jabatan_add').addClass('is-invalid');
+                    } else{
+                        $('#addBtnJab').attr('disabled', false);
+                        $('#nama_jabatan_add').removeClass('is-invalid');
+                    }
+                }
+            })
+        })
+        
 
         $(function() {
             $('[data-tooltip="tooltip"]').tooltip()
@@ -298,11 +535,11 @@
 
         <!-- Alert error -->
         <?php
-        if (session()->has('error')) : ?>
+        if (session()->has('failed')) : ?>
         <script>
         Swal.fire({
             title: 'Error!',
-            text: '<?= session('error') ?>',
+            text: '<?= session('failed') ?>',
             icon: 'error',
         })
         </script>

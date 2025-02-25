@@ -7,6 +7,7 @@ use App\Http\Controllers\DivisiController;
 use App\Http\Controllers\JabatanController;
 use App\Http\Controllers\KaryawanController;
 use App\Http\Controllers\KriteriaController;
+use App\Http\Controllers\LeaderController;
 use App\Http\Controllers\PemilikController;
 use App\Http\Controllers\PenilaianController;
 use App\Http\Controllers\UserController;
@@ -93,5 +94,20 @@ Route::middleware('auth')->group(function () {
     Route::get('karyawan/home', [KaryawanController::class, 'index'])->name('karyawan.home');
     Route::get('karyawan/penilaian', [KaryawanController::class, 'penilaian'])->name('karyawan.penilaian');
     Route::get('karyawan/perhitungan', [KaryawanController::class, 'perhitungan'])->name('karyawan.perhitungan');
+    Route::get('karyawan/profil', [KaryawanController::class, 'profile'])->name('karyawan.profil');
+    Route::put('karyawan/profil/edit{id}', [KaryawanController::class, 'edit_profile'])->name('edit_profile');
     Route::get('karyawan/cetak/pdf', [PenilaianController::class, 'pdf'])->name('karyawan.cetak.pdf');
+});
+
+Route::middleware('auth')->group(function () {
+    Route::get('leader/home', [LeaderController::class, 'index'])->name('leader.home');
+    Route::get('leader/alternatif', [LeaderController::class, 'alternatif'])->name('leader.alternatif');
+    Route::post('alternatif/add', [AlternatifController::class, 'add_alternatif'])->name('add_alternatif');
+    Route::post('alternatif/check', [AlternatifController::class, 'check_alternatif'])->name('check_alternatif');
+    Route::put('alternatif/edit{id}', [AlternatifController::class, 'edit_alternatif'])->name('edit_alternatif');
+    Route::delete('alternatif/delete{id_alternatif}', [AlternatifController::class, 'delete_alternatif'])->name('delete_alternatif');
+    Route::get('leader/perhitungan', [LeaderController::class, 'perhitungan'])->name('leader.perhitungan');
+    Route::get('leader/profil', [LeaderController::class, 'profile'])->name('leader.profil');
+    Route::put('leader/profil/edit{id}', [LeaderController::class, 'edit_profile'])->name('edit_profile');
+    Route::get('leader/cetak/pdf', [PenilaianController::class, 'pdf'])->name('leader.cetak.pdf');
 });

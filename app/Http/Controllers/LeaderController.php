@@ -10,7 +10,7 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\Session;
 
-class KaryawanController extends Controller
+class LeaderController extends Controller
 {
     public function index()
     {
@@ -18,7 +18,17 @@ class KaryawanController extends Controller
             'title' => 'Home'
         ];
 
-        return view('karyawan.home', $data);
+        return view('leader.home', $data);
+    }
+
+    public function alternatif()
+    {
+        $data = [
+            'title' => 'Alternatif',
+            'alternatif' => Alternatif::all(),
+        ];
+
+        return view('leader.alternatif', $data);
     }
 
     public function perhitungan()
@@ -56,7 +66,7 @@ class KaryawanController extends Controller
             // 'ranking' => DB::unprepared("SELECT *, (tb2.solusi_negatif/(tb2.solusi_negatif+tb2.solusi_positif)) AS kedekatan FROM penilaian tb1 JOIN (SELECT tb1.id_alternatif AS alt, (SQRT(SUM(pow((tb1.nilai / SQRT(tb2.total) * tb3.bobot_kriteria) - IF(tb3.jenis_kriteria = 'Benefit', tb4.max, tb4.min) , 2)))) AS solusi_positif, (SQRT(SUM(pow((tb1.nilai / SQRT(tb2.total) * tb3.bobot_kriteria) - IF(tb3.jenis_kriteria = 'Benefit', tb4.min, tb4.max) , 2)))) AS solusi_negatif FROM penilaian tb1 JOIN (SELECT id_kriteria,SUM(pow(nilai,2)) AS total FROM penilaian GROUP BY id_kriteria) AS tb2 ON tb1.id_kriteria = tb2.id_kriteria JOIN kriteria tb3 ON tb1.id_kriteria = tb3.id_kriteria JOIN (SELECT tb1.id_kriteria, MAX(tb1.nilai / SQRT(tb2.total) * tb3.bobot_kriteria) AS max, MIN(tb1.nilai / SQRT(tb2.total) * tb3.bobot_kriteria) AS min,tb3.kode_kriteria FROM penilaian tb1 JOIN (SELECT id_kriteria,SUM(pow(nilai,2)) AS total FROM penilaian GROUP BY id_kriteria) AS tb2 ON tb1.id_kriteria = tb2.id_kriteria JOIN kriteria tb3 ON tb1.id_kriteria = tb3.id_kriteria GROUP BY id_kriteria) tb4 ON tb1.id_kriteria = tb4.id_kriteria GROUP BY id_alternatif) tb2 ON tb1.id_alternatif = tb2.alt JOIN alternatif tb3 ON tb1.id_alternatif = tb3.id_alternatif GROUP BY tb1.id_alternatif ORDER BY kedekatan DESC;")
         ];
 
-        return view('karyawan.perhitungan', $data);
+        return view('leader.perhitungan', $data);
     }
 
     public function profile()
@@ -66,7 +76,7 @@ class KaryawanController extends Controller
             'profile' => DB::table('users')->where('id', Auth::user()->id)->first()
         ];
 
-        return view('karyawan.profil', $data);
+        return view('leader.profil', $data);
     }
 
     public function edit_profile(Request $request, $id)

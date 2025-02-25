@@ -111,6 +111,9 @@
                                                                 <option value="Pemilik"
                                                                     <?= $usr->level == 'Pemilik' ? 'selected' : '' ?>>
                                                                     Pemilik</option>
+                                                                <option value="Leader"
+                                                                    <?= $usr->level == 'Leader' ? 'selected' : '' ?>>
+                                                                    Leader</option>
                                                                 <option value="Karyawan"
                                                                     <?= $usr->level == 'Karyawan' ? 'selected' : '' ?>>
                                                                     Karyawan</option>
@@ -198,6 +201,7 @@
                                         <option value="" selected>Pilih...</option>
                                         <option value="Admin">Admin</option>
                                         <option value="Pemilik">Pemilik</option>
+                                        <option value="Leader">Leader</option>
                                         <option value="Karyawan">Karyawan</option>
                                     </select>
                                 </div>

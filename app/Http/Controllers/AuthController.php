@@ -31,6 +31,8 @@ class AuthController extends Controller
                 return redirect('admin/home');
             } elseif (FacadesAuth::user()->level == 'Pemilik') {
                 return redirect('pemilik/home');
+            } elseif (FacadesAuth::user()->level == 'Leader') {
+                return redirect('leader/home');
             } else {
                 return redirect('karyawan/home');
             }
