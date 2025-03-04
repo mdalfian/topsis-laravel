@@ -26,7 +26,7 @@ class AdminController extends Controller
     {
         $data = [
             'title' => 'Kriteria',
-            'kriteria' => Kriteria::all()
+            'kriteria' => Kriteria::where('kat_kriteria', 3)->get()
         ];
 
         return view('admin.kriteria', $data);
@@ -36,7 +36,7 @@ class AdminController extends Controller
     {
         $data = [
             'title' => 'Sub Kriteria',
-            'kriteria' => Kriteria::all(),
+            'kriteria' => DB::table('kriteria')->get(),
             'sub_kriteria' => DB::table('sub_kriteria')->get()->sortByDesc('nilai')
         ];
 
@@ -47,7 +47,7 @@ class AdminController extends Controller
     {
         $data = [
             'title' => 'Alternatif',
-            'alternatif' => Alternatif::all(),
+            'alternatif' => DB::table('alternatif')->get(),
         ];
 
         return view('admin.alternatif', $data);
@@ -57,8 +57,8 @@ class AdminController extends Controller
     {
         $data = [
             'title' => 'Penilaian',
-            'alternatif' => Alternatif::all(),
-            'kriteria' => Kriteria::all(),
+            'alternatif' => DB::table('alternatif')->get(),
+            'kriteria' => DB::table('kriteria')->get(),
             'sub_kriteria' => DB::table('sub_kriteria')->get()->sortByDesc('nilai'),
             'penilaian' => DB::table('penilaian')
                 ->select('penilaian.*', 'kriteria.nama_kriteria')
@@ -116,7 +116,7 @@ class AdminController extends Controller
                 ->join('jabatan', 'users.id_jabatan', '=', 'jabatan.id_jabatan')
                 ->where('id', '!=', 1)
                 ->get(),
-            'jabatan' => Jabatan::all()
+            'jabatan' => DB::table('jabatan')->get(),
         ];
 
         return view('admin.user', $data);
@@ -126,7 +126,7 @@ class AdminController extends Controller
     {
         $data = [
             'title' => 'Divisi',
-            'divisi' => Divisi::all()
+            'divisi' => DB::table('divisi')->get(),
         ];
 
         return view('admin.divisi', $data);
@@ -136,7 +136,7 @@ class AdminController extends Controller
     {
         $data = [
             'title' => 'Divisi',
-            'divisi' => Divisi::all(),
+            'divisi' =>  DB::table('divisi')->get(),
             'jabatan' => DB::table('jabatan')
                 ->select('jabatan.*', 'divisi.nama_divisi')
                 ->join('divisi', 'jabatan.id_divisi', '=', 'divisi.id_divisi')
@@ -144,5 +144,23 @@ class AdminController extends Controller
         ];
 
         return view('admin.jabatan', $data);
+    }
+
+    public function edit($mode, $id)
+    {
+        $data = [
+            'title' => $mode == 'sub' ? 'Sub Kriteria' : 'Kriteria',
+            'mode' => $mode,
+            'sk' => DB::table('sub_kriteria')
+                ->select('*')
+                ->where('id_sub_kriteria', '=', $id)
+                ->first(),
+            'kri' => DB::table('kriteria')
+                ->select('*')
+                ->where('id_kriteria', '=', $id)
+                ->first()
+        ];
+
+        return view('edit', $data);
     }
 }

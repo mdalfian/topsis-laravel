@@ -89,6 +89,16 @@
                                                         </select>
                                                     </div>
                                                 </div>
+                                                <div class="control-group mb-3 col">
+                                                    <label class="control-label" for="level_alternatif">Level Alternatif</label>
+                                                    <div class="controls">
+                                                        <select name="level_alternatif" id="level_alternatif" class="form-control bg-light small" required>
+                                                            <option value="" selected>Pilih...</option>
+                                                          <option value="1" {{ $alt->jenis_kelamin == '1' ? 'selected' : '' }}>Staff</option>
+                                                          <option value="2" {{ $alt->jenis_kelamin == '2' ? 'selected' : '' }}>Sales</option>
+                                                        </select>
+                                                    </div>
+                                                </div>
                                             </div>
                                         </div>
                                         <div class="modal-footer">
@@ -143,6 +153,16 @@
                                     <option value="" selected>Pilih...</option>
                                   <option value="Laki - Laki">Laki - Laki</option>
                                   <option value="Perempuan">Perempuan</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="control-group mb-3 col">
+                            <label class="control-label" for="level_alternatif">Level Alternatif</label>
+                            <div class="controls">
+                                <select name="level_alternatif" id="level_alternatif" class="form-control bg-light small" required>
+                                    <option value="" selected>Pilih...</option>
+                                  <option value="1">Staff</option>
+                                  <option value="2">Sales</option>
                                 </select>
                             </div>
                         </div>

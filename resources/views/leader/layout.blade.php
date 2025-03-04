@@ -39,7 +39,7 @@
         <ul class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion" id="accordionSidebar">
 
             <!-- Sidebar - Brand -->
-            <a class="sidebar-brand d-flex align-items-center justify-content-center" href="{{'home'}}">
+            <a class="sidebar-brand d-flex align-items-center justify-content-center" href="{{route('leader.home')}}">
                 <div class="sidebar-brand-icon rotate-n-15">
                     <i class="fas fa-database"></i>
                 </div>
@@ -56,21 +56,21 @@
 
             <!-- Nav Item - Dashboard -->
             <li class="nav-item <?= $title == 'Alternatif' ? 'active' : "" ?>">
-                <a class="nav-link" href="{{'alternatif'}}">
+                <a class="nav-link" href="{{route('leader.alternatif')}}">
                     <i class="fas fa-users"></i>
                     <span>Alternatif</span></a>
             </li>
 
             <!-- Nav Item - Dashboard -->
             <li class="nav-item <?= $title == 'Perhitungan' ? 'active' : "" ?>">
-                <a class="nav-link" href="{{'perhitungan'}}">
+                <a class="nav-link" href="{{route('leader.perhitungan')}}">
                     <i class="fas fa-calculator"></i>
                     <span>Perhitungan</span></a>
             </li>
 
 
             <li class="nav-item <?= $title == 'Profil' ? 'active' : "" ?>">
-                 <a class="nav-link" href="{{'profil'}}">
+                 <a class="nav-link" href="{{route('leader.profil')}}">
                      <i class="fas fa-user"></i>
                      <span>Profil</span></a>
             </li>
@@ -328,6 +328,31 @@
                 }
             })
         })
+
+         // select alternatif
+         function selectAlt(){
+            var kat = $('#level_alt').val();
+           
+            $.ajax({
+                method: 'POST',
+                url: '{{Route("select_alt")}}',
+                data: {
+                    "_token" : "{{ csrf_token() }}",
+                    'kat': kat,
+                },
+                success:function(result){
+                    $('.result-rank').html(result);
+                    $('.alert').addClass('d-none');
+                    $('#btnPdf').attr('onclick', 'cetakPdf('+kat+')')
+                }
+            })
+        }
+
+        // cetak PDF
+        function cetakPdf(kat){
+            var showRoute = "{{ route('leader.cetak.pdf', ':id') }}";
+            window.location.href = showRoute.replace(':id', kat);
+        }
 
         // Check Kriteria
         $('#kode_kriteria_add').keyup(function(){

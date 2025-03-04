@@ -7,6 +7,24 @@
 
     <!-- Content -->
     <div class="card shadow mb-4">
+        <div class="card-body">
+         {{-- Select Kriteria --}}
+         <div class="alert alert-warning" role="alert" id="alert">
+            Pilih kategori <b>Kriteria</b> dibawah ini!!!
+          </div>
+        <div class="controls mb-3">
+            <select name="level_alt" id="level_alt"
+                class="form-control bg-light small" onchange="selectAlt()" autofocus>
+                <option value="">Pilih...</option>
+                <option value="1">Staff</option>
+                <option value="2">Sales</option>
+            </select>
+        </div>
+    </div>
+    </div>
+
+    <div class="result-rank">
+    {{-- <div class="card shadow mb-4">
         <div class="card-header py-3">
             <h6 class="m-0 font-weight-bold text-primary">Matrik Keputusan (X)</h6>
         </div>
@@ -346,7 +364,9 @@
                 </table>
             </div>
         </div>
-    </div>
+    </div> --}}
+
+</div>
 
 </div>
 <!-- /.container-fluid -->

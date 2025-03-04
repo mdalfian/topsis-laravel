@@ -39,7 +39,7 @@
         <ul class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion" id="accordionSidebar">
 
             <!-- Sidebar - Brand -->
-            <a class="sidebar-brand d-flex align-items-center justify-content-center" href="{{'home'}}">
+            <a class="sidebar-brand d-flex align-items-center justify-content-center" href="{{route('admin.home')}}">
                 <div class="sidebar-brand-icon rotate-n-15">
                     <i class="fas fa-database"></i>
                 </div>
@@ -56,35 +56,35 @@
 
             <!-- Nav Item - Dashboard -->
             <li class="nav-item <?= $title == 'Kriteria' ? 'active' : "" ?>">
-                <a class="nav-link" href="{{'kriteria'}}">
+                <a class="nav-link" href="{{route('admin.kriteria')}}">
                     <i class="fas fa-cube"></i>
                     <span>Kriteria</span></a>
             </li>
 
             <!-- Nav Item - Dashboard -->
             <li class="nav-item <?= $title == 'Sub Kriteria' ? 'active' : "" ?>">
-                <a class="nav-link" href="{{'sub_kriteria'}}">
+                <a class="nav-link" href="{{route('admin.sub_kriteria')}}">
                     <i class="fas fa-cubes"></i>
                     <span>Sub Kriteria</span></a>
             </li>
 
             <!-- Nav Item - Dashboard -->
             <li class="nav-item <?= $title == 'Alternatif' ? 'active' : "" ?>">
-                <a class="nav-link" href="{{'alternatif'}}">
+                <a class="nav-link" href="{{route('admin.alternatif')}}">
                     <i class="fas fa-users"></i>
                     <span>Alternatif</span></a>
             </li>
 
             <!-- Nav Item - Dashboard -->
             <li class="nav-item <?= $title == 'Penilaian' ? 'active' : "" ?>">
-                <a class="nav-link" href="{{'penilaian'}}">
+                <a class="nav-link" href="{{route('admin.penilaian')}}">
                     <i class="fas fa-star-half-alt"></i>
                     <span>Penialaian</span></a>
             </li>
 
             <!-- Nav Item - Dashboard -->
             <li class="nav-item <?= $title == 'Perhitungan' ? 'active' : "" ?>">
-                <a class="nav-link" href="{{'perhitungan'}}">
+                <a class="nav-link" href="{{route('admin.perhitungan')}}">
                     <i class="fas fa-calculator"></i>
                     <span>Perhitungan</span></a>
             </li>
@@ -99,7 +99,7 @@
 
             <!-- Nav Item - Dashboard -->
             <li class="nav-item <?= $title == 'User' ? 'active' : "" ?>">
-                <a class="nav-link" href="{{'user'}}">
+                <a class="nav-link" href="{{route('admin.user')}}">
                     <i class="fas fa-user"></i>
                     <span>User</span></a>
             </li>
@@ -116,8 +116,8 @@ aria-expanded="true" aria-controls="collapseTwo">
 <div id="collapseThree" class="collapse" aria-labelledby="headingThree" data-parent="#accordionSidebar">
 <div class="bg-white py-2 collapse-inner rounded">
     <h6 class="collapse-header">Menu :</h6>
-    <a class="collapse-item" href="{{'divisi'}}">Divisi</a>
-    <a class="collapse-item" href="{{'jabatan'}}">Jabatan</a>
+    <a class="collapse-item" href="{{route('admin.divisi')}}">Divisi</a>
+    <a class="collapse-item" href="{{route('admin.jabatan')}}">Jabatan</a>
 </div>
 </div>
 </li>
@@ -466,6 +466,69 @@ aria-expanded="true" aria-controls="collapseTwo">
         //     })
         // })
 
+        // select kriteria
+        function selectKriteria(mode){
+            var kat = $('#kat_kriteria').val();
+           
+            $.ajax({
+                method: 'POST',
+                url: '{{Route("select_kriteria")}}',
+                data: {
+                    "_token" : "{{ csrf_token() }}",
+                    'kat': kat,
+                    'mode': mode
+                },
+                success:function(result){
+                    $('.select-kriteria').html(result);
+                    $('#dataTable').DataTable();
+                    $('.alert').addClass('d-none');
+                }
+            })
+        }
+
+        // select alternatif
+        function selectAlt(){
+            var kat = $('#level_alt').val();
+           
+            $.ajax({
+                method: 'POST',
+                url: '{{Route("select_alt")}}',
+                data: {
+                    "_token" : "{{ csrf_token() }}",
+                    'kat': kat,
+                },
+                success:function(result){
+                    $('.result-rank').html(result);
+                    $('.alert').addClass('d-none');
+                    $('#btnPdf').attr('onclick', 'cetakPdf('+kat+')')
+                }
+            })
+        }
+
+        // cetak PDF
+        function cetakPdf(kat){
+            var showRoute = "{{ route('admin.cetak.pdf', ':id') }}";
+            window.location.href = showRoute.replace(':id', kat);
+        }
+        // $('#kat_kriteria').change(function(){
+        //     var kat = $(this).val();
+
+        //     $.ajax({
+        //         method: 'POST',
+        //         url: '{{Route("select_kriteria")}}',
+        //         data: {
+        //             "_token" : "{{ csrf_token() }}",
+        //             'kat': kat,
+        //             'mode': 'kriteria'
+        //         },
+        //         success:function(result){
+        //             $('.select-kriteria').html(result);
+        //             $('#dataTable').DataTable();
+        //             $('.alert').addClass('d-none');
+        //         }
+        //     })
+        // })
+
         // check sub kriteria
         function check_sub(id){
             var nama = $('#nama_sub_kriteria_add').val();
@@ -561,7 +624,6 @@ aria-expanded="true" aria-controls="collapseTwo">
                 }
             })
         })
-        
 
         $(function() {
             $('[data-tooltip="tooltip"]').tooltip()

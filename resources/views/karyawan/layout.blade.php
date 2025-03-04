@@ -278,6 +278,31 @@
             })
         }
 
+         // select alternatif
+         function selectAlt(){
+            var kat = $('#level_alt').val();
+           
+            $.ajax({
+                method: 'POST',
+                url: '{{Route("select_alt")}}',
+                data: {
+                    "_token" : "{{ csrf_token() }}",
+                    'kat': kat,
+                },
+                success:function(result){
+                    $('.result-rank').html(result);
+                    $('.alert').addClass('d-none');
+                    $('#btnPdf').attr('onclick', 'cetakPdf('+kat+')')
+                }
+            })
+        }
+
+        // cetak PDF
+        function cetakPdf(kat){
+            var showRoute = "{{ route('karyawan.cetak.pdf', ':id') }}";
+            window.location.href = showRoute.replace(':id', kat);
+        }
+
 
         $(function() {
             $('[data-tooltip="tooltip"]').tooltip()

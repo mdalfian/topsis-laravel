@@ -25,8 +25,8 @@ class PemilikController extends Controller
     {
         $data = [
             'title' => 'Penilaian',
-            'alternatif' => Alternatif::all(),
-            'kriteria' => Kriteria::all(),
+            'alternatif' => DB::table('alternatif')->get(),
+            'kriteria' => DB::table('kriteria')->get(),
             'sub_kriteria' => DB::table('sub_kriteria')->get()->sortByDesc('nilai'),
             'penilaian' => DB::table('penilaian')
                 ->select('penilaian.*', 'kriteria.nama_kriteria')

@@ -56,6 +56,7 @@
                                                     method="post">
                                                     @csrf
                                                     <?php foreach ($kriteria as $kri) : ?>
+                                                    <?php if($alt->level_alternatif == $kri->kat_kriteria) : ?>
                                                         <div class="control-group mb-3 col">
                                                             <label class="control-label font-weight-bold"
                                                                 for="<?= $kri->kode_kriteria ?>"><?= $kri->nama_kriteria ?></label>
@@ -75,6 +76,7 @@
                                                                     value="<?= $kri->id_kriteria ?>">
                                                             </div>
                                                         </div>
+                                                        <?php endif; ?>
                                                     <?php endforeach; ?>
                                             </div>
                                             <div class="modal-footer">

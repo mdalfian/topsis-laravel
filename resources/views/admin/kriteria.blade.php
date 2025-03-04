@@ -10,6 +10,19 @@
             <h6 class="m-0 font-weight-bold text-primary">Data Kriteria</h6>
         </div>
         <div class="card-body">
+            {{-- Select Kriteria --}}
+            <div class="alert alert-warning" role="alert" id="alert">
+                Pilih kategori <b>Kriteria</b> dibawah ini!!!
+              </div>
+            <div class="controls mb-3">
+                <select name="kat_kriteria" id="kat_kriteria"
+                    class="form-control bg-light small" onchange="selectKriteria('kriteria')" autofocus>
+                    <option value="">Pilih...</option>
+                    <option value="1">Staff</option>
+                    <option value="2">Sales</option>
+                </select>
+            </div>
+
             <!-- Add Button -->
             <button class="btn btn-primary btn-icon-split mb-3" data-toggle="modal" data-target="#addModal">
                 <span class="icon text-white-50">
@@ -18,7 +31,7 @@
                 <span class="text">Tambah</span>
             </button>
 
-            <div class="table-responsive">
+            <div class="table-responsive select-kriteria">
                 <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
                     <thead>
                         <th>No</th>
@@ -38,9 +51,9 @@
                             <td><?= $kri->bobot_kriteria ?></td>
                             <td><?= $kri->jenis_kriteria ?></td>
                             <td class="d-flex justify-content-center">
-                                <button class="btn btn-sm btn-warning" data-tooltip="tooltip" data-placement="bottom"
-                                    title="Edit" data-toggle="modal" data-target="#editModal<?= $kri->id_kriteria ?>"><i
-                                        class="fas fa-edit"></i></button>
+                                <a href=""><button class="btn btn-sm btn-warning" data-tooltip="tooltip" data-placement="bottom"
+                                    title="Edit"><i class="fas fa-edit"></i></button>
+                                    </a>
                                         <form id="deleteForm<?= $kri->id_kriteria ?>" action="{{ route('delete_kriteria', $kri->id_kriteria) }}" method="post">
                                             @csrf
                                             @method('delete')
@@ -106,7 +119,7 @@
                                                         </div>
                                                     </div>
                                                     <div class="control-group mb-3 col">
-                                                        <label class="control-label" for="jenis_kriteria">Nama
+                                                        <label class="control-label" for="jenis_kriteria">Jenis
                                                             Kriteria</label>
                                                         <div class="controls">
                                                             <select name="jenis_kriteria" id="jenis_kriteria"
@@ -189,13 +202,24 @@
                                 </div>
                             </div>
                             <div class="control-group mb-3 col">
-                                <label class="control-label" for="jenis_kriteria">Nama Kriteria</label>
+                                <label class="control-label" for="jenis_kriteria">Jenis Kriteria</label>
                                 <div class="controls">
                                     <select name="jenis_kriteria" id="jenis_kriteria"
                                         class="form-control bg-light small" required>
                                         <option value="" selected>Pilih...</option>
                                         <option value="Benefit">Benefit</option>
                                         <option value="Cost">Cost</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="control-group mb-3 col">
+                                <label class="control-label" for="kat_kriteria">Kategori Kriteria</label>
+                                <div class="controls">
+                                    <select name="kat_kriteria" id="kat_kriteria"
+                                        class="form-control bg-light small" required>
+                                        <option value="" selected>Pilih...</option>
+                                        <option value="1">Staff</option>
+                                        <option value="2">Sales</option>
                                     </select>
                                 </div>
                             </div>

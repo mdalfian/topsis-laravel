@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Waktu pembuatan: 25 Feb 2025 pada 02.47
+-- Waktu pembuatan: 04 Mar 2025 pada 06.59
 -- Versi server: 10.4.32-MariaDB
 -- Versi PHP: 8.2.12
 
@@ -28,20 +28,12 @@ SET time_zone = "+00:00";
 --
 
 CREATE TABLE `alternatif` (
-  `id_alternatif` int(11) NOT NULL,
+  `id_alternatif` varchar(11) NOT NULL,
   `nama_alternatif` text NOT NULL,
   `jenis_kelamin` text NOT NULL,
+  `level_alternatif` int(11) NOT NULL COMMENT '1. Staff, 2. Sales',
   `status` int(11) NOT NULL DEFAULT 2 COMMENT '1. Dinilai, 2. Belum'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
---
--- Dumping data untuk tabel `alternatif`
---
-
-INSERT INTO `alternatif` (`id_alternatif`, `nama_alternatif`, `jenis_kelamin`, `status`) VALUES
-(3, 'Alternatif 1', 'Laki - Laki', 1),
-(4, 'Alternatif 2', 'Perempuan', 1),
-(5, 'Alternatif 3', '', 1);
 
 -- --------------------------------------------------------
 
@@ -74,7 +66,7 @@ CREATE TABLE `cache_locks` (
 --
 
 CREATE TABLE `divisi` (
-  `id_divisi` int(11) NOT NULL,
+  `id_divisi` varchar(11) NOT NULL,
   `nama_divisi` text NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
@@ -83,10 +75,10 @@ CREATE TABLE `divisi` (
 --
 
 INSERT INTO `divisi` (`id_divisi`, `nama_divisi`) VALUES
-(1, 'HR'),
-(2, 'General'),
-(3, 'Sales'),
-(4, 'Produksi');
+('DIV0001', 'HR'),
+('DIV0002', 'Sales'),
+('DIV0003', 'General'),
+('DIV0004', 'Produksi');
 
 -- --------------------------------------------------------
 
@@ -111,9 +103,9 @@ CREATE TABLE `failed_jobs` (
 --
 
 CREATE TABLE `jabatan` (
-  `id_jabatan` int(11) NOT NULL,
+  `id_jabatan` varchar(11) NOT NULL,
   `nama_jabatan` text NOT NULL,
-  `id_divisi` int(11) NOT NULL
+  `id_divisi` varchar(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
@@ -121,10 +113,9 @@ CREATE TABLE `jabatan` (
 --
 
 INSERT INTO `jabatan` (`id_jabatan`, `nama_jabatan`, `id_divisi`) VALUES
-(3, 'Staff HR', 1),
-(4, 'Sales A', 3),
-(5, 'General Manager', 2),
-(6, 'Leader Line', 4);
+('JAB0001', 'Administrator', 'DIV0001'),
+('JAB0002', 'Pemilik', 'DIV0003'),
+('JAB0003', 'Leader Line', 'DIV0004');
 
 -- --------------------------------------------------------
 
@@ -168,21 +159,13 @@ CREATE TABLE `job_batches` (
 --
 
 CREATE TABLE `kriteria` (
-  `id_kriteria` int(11) NOT NULL,
+  `id_kriteria` varchar(11) NOT NULL,
   `kode_kriteria` varchar(10) NOT NULL,
   `nama_kriteria` text NOT NULL,
   `bobot_kriteria` int(20) NOT NULL,
-  `jenis_kriteria` enum('Cost','Benefit') NOT NULL
+  `jenis_kriteria` enum('Cost','Benefit') NOT NULL,
+  `kat_kriteria` int(11) NOT NULL COMMENT '1. Staff, 2. Sales'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
---
--- Dumping data untuk tabel `kriteria`
---
-
-INSERT INTO `kriteria` (`id_kriteria`, `kode_kriteria`, `nama_kriteria`, `bobot_kriteria`, `jenis_kriteria`) VALUES
-(2, 'C1', 'Absensi', 2, 'Benefit'),
-(3, 'C2', 'Integritas', 3, 'Benefit'),
-(4, 'C3', 'Loyalitas', 5, 'Cost');
 
 -- --------------------------------------------------------
 
@@ -225,26 +208,11 @@ CREATE TABLE `password_reset_tokens` (
 
 CREATE TABLE `penilaian` (
   `id_penilaian` int(11) NOT NULL,
-  `id_alternatif` int(11) NOT NULL,
-  `id_kriteria` int(11) NOT NULL,
+  `id_alternatif` varchar(11) NOT NULL,
+  `id_kriteria` varchar(11) NOT NULL,
   `nilai` float NOT NULL,
   `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
---
--- Dumping data untuk tabel `penilaian`
---
-
-INSERT INTO `penilaian` (`id_penilaian`, `id_alternatif`, `id_kriteria`, `nilai`, `updated_at`) VALUES
-(1, 3, 2, 5, '2025-02-12 20:54:21'),
-(2, 3, 3, 3, '2025-02-12 20:54:21'),
-(3, 3, 4, 4, '2025-02-12 20:54:21'),
-(4, 4, 2, 4, NULL),
-(5, 4, 3, 2, NULL),
-(6, 4, 4, 5, NULL),
-(7, 5, 2, 3, '2025-02-11 21:00:53'),
-(8, 5, 3, 5, '2025-02-11 21:00:53'),
-(9, 5, 4, 2, '2025-02-11 21:00:53');
 
 -- --------------------------------------------------------
 
@@ -266,8 +234,7 @@ CREATE TABLE `sessions` (
 --
 
 INSERT INTO `sessions` (`id`, `user_id`, `ip_address`, `user_agent`, `payload`, `last_activity`) VALUES
-('jq1OnLUhjvtG8jxvpmgcbBE4bqDGqMCbMxvgbhjr', 5, '127.0.0.1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/133.0.0.0 Safari/537.36', 'YTo0OntzOjY6Il90b2tlbiI7czo0MDoickpPZ3dFbnBpWHRrb2xxSTM0bzFHTDB3dzJQempQQlJYeVhlcHpqayI7czo2OiJfZmxhc2giO2E6Mjp7czozOiJvbGQiO2E6MDp7fXM6MzoibmV3IjthOjA6e319czo5OiJfcHJldmlvdXMiO2E6MTp7czozOiJ1cmwiO3M6Mzk6Imh0dHA6Ly8xMjcuMC4wLjE6ODAwMC9sZWFkZXIvYWx0ZXJuYXRpZiI7fXM6NTA6ImxvZ2luX3dlYl81OWJhMzZhZGRjMmIyZjk0MDE1ODBmMDE0YzdmNThlYTRlMzA5ODlkIjtpOjU7fQ==', 1740448031),
-('zqLEE8T4z466lNiifZpRhh15lYDiJTKLd1uEFd7U', NULL, '127.0.0.1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/133.0.0.0 Safari/537.36', 'YTozOntzOjY6Il90b2tlbiI7czo0MDoiM04wY2s4emZEcnVUSzMxYlo1Qk5IaGJ0RFdVSFhTOTZjdmxvckFHUSI7czo2OiJfZmxhc2giO2E6Mjp7czozOiJvbGQiO2E6MDp7fXM6MzoibmV3IjthOjA6e319czo5OiJfcHJldmlvdXMiO2E6MTp7czozOiJ1cmwiO3M6MjE6Imh0dHA6Ly8xMjcuMC4wLjE6ODAwMCI7fX0=', 1740126384);
+('GwHSHcXv8ZUxjy0AJRr2RC0gwWr8FZ5yxrtQCth1', 1, '127.0.0.1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/133.0.0.0 Safari/537.36', 'YTo0OntzOjY6Il90b2tlbiI7czo0MDoiT1ZDQVZsOWl1NE9RdEVRd21uR21tb1NlZmpUaW9saWtBaXdZZkg4UiI7czo5OiJfcHJldmlvdXMiO2E6MTp7czozOiJ1cmwiO3M6Mzc6Imh0dHA6Ly8xMjcuMC4wLjE6ODAwMC9hZG1pbi9wZW5pbGFpYW4iO31zOjY6Il9mbGFzaCI7YToyOntzOjM6Im9sZCI7YTowOnt9czozOiJuZXciO2E6MDp7fX1zOjUwOiJsb2dpbl93ZWJfNTliYTM2YWRkYzJiMmY5NDAxNTgwZjAxNGM3ZjU4ZWE0ZTMwOTg5ZCI7aToxO30=', 1741067917);
 
 -- --------------------------------------------------------
 
@@ -276,32 +243,11 @@ INSERT INTO `sessions` (`id`, `user_id`, `ip_address`, `user_agent`, `payload`, 
 --
 
 CREATE TABLE `sub_kriteria` (
-  `id_sub_kriteria` int(11) NOT NULL,
+  `id_sub_kriteria` varchar(11) NOT NULL,
   `nama_sub_kriteria` text NOT NULL,
   `nilai` float NOT NULL,
-  `id_kriteria` int(11) NOT NULL
+  `id_kriteria` varchar(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
---
--- Dumping data untuk tabel `sub_kriteria`
---
-
-INSERT INTO `sub_kriteria` (`id_sub_kriteria`, `nama_sub_kriteria`, `nilai`, `id_kriteria`) VALUES
-(1, 'Sangat Baik', 5, 2),
-(2, 'Biasa Aja', 3, 2),
-(3, 'Baik', 4, 2),
-(4, 'Buruk', 2, 2),
-(6, 'Sangat Baik', 5, 3),
-(7, 'Cukup', 3, 3),
-(8, 'Baik', 4, 3),
-(9, 'Buruk', 2, 3),
-(10, 'Sangat Buruk', 1, 3),
-(11, 'Sangat Baik', 5, 4),
-(12, 'Cukup', 3, 4),
-(13, 'Baik', 4, 4),
-(14, 'Buruk', 2, 4),
-(15, 'Sangat Buruk', 1, 4),
-(17, 'Sangat Buruk', 1, 2);
 
 -- --------------------------------------------------------
 
@@ -310,15 +256,15 @@ INSERT INTO `sub_kriteria` (`id_sub_kriteria`, `nama_sub_kriteria`, `nilai`, `id
 --
 
 CREATE TABLE `users` (
-  `id` bigint(20) UNSIGNED NOT NULL,
-  `name` varchar(255) NOT NULL,
-  `username` varchar(50) NOT NULL,
-  `password` varchar(255) NOT NULL,
-  `remember_token` varchar(100) DEFAULT NULL,
+  `id` varchar(11) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
+  `name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
+  `username` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
+  `password` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
+  `remember_token` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL,
-  `id_jabatan` int(11) NOT NULL,
-  `level` enum('Admin','Pemilik','Karyawan','Leader') NOT NULL
+  `id_jabatan` varchar(11) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
+  `level` enum('Admin','Pemilik','Karyawan','Leader') CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
@@ -326,10 +272,9 @@ CREATE TABLE `users` (
 --
 
 INSERT INTO `users` (`id`, `name`, `username`, `password`, `remember_token`, `created_at`, `updated_at`, `id_jabatan`, `level`) VALUES
-(1, 'Administrator', 'admin', '$2y$12$nMSNzNzq7gW8OICrCqCqMubXQXykhuhNe07RTiRAdWotdE4U48X6y', NULL, NULL, NULL, 3, 'Admin'),
-(3, 'Aldo Harsanto', 'aldo', '$2y$12$oSQCcl.dRnYY.TMjuIQSkeHn5.TLgzJ9hAEd1zBs.0UC/H3w0kvYu', NULL, NULL, NULL, 5, 'Pemilik'),
-(4, 'Ari Ramdhani', 'ariram', '$2y$12$GdJ3ufg98GVYHBqDrAy45eneLww.KQGRbvaVYDc8slX7td4b.pj9K', NULL, NULL, NULL, 4, 'Karyawan'),
-(5, 'Bayu Saptaji', 'bayu', '$2y$12$DJsM.ZhRnTzdQu5STp6Jwu4nbP42oiIyRbPm9ySVIoLd0o9rbJqQG', NULL, NULL, NULL, 6, 'Leader');
+('1', 'Administrator', 'admin', '$2y$12$nMSNzNzq7gW8OICrCqCqMubXQXykhuhNe07RTiRAdWotdE4U48X6y', NULL, NULL, NULL, 'JAB0001', 'Admin'),
+('USR0001', 'Aldo Harsa', 'aldo', '$2y$12$7Qz.3ts923btH4g5xJ0lQ.jWyRysRW4fFeEcZj1Pusb.IygxXPOya', NULL, NULL, NULL, 'JAB0002', 'Pemilik'),
+('USR0002', 'Ari Ramdhani', 'ariram', '$2y$12$bp0i/TQOCdYvYf1maLbjTuPX5z7oo63v6v0Vy5OaFCMgcTyP2GVES', NULL, NULL, NULL, 'JAB0003', 'Leader');
 
 --
 -- Indexes for dumped tables
@@ -439,40 +384,16 @@ ALTER TABLE `users`
 --
 
 --
--- AUTO_INCREMENT untuk tabel `alternatif`
---
-ALTER TABLE `alternatif`
-  MODIFY `id_alternatif` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
-
---
--- AUTO_INCREMENT untuk tabel `divisi`
---
-ALTER TABLE `divisi`
-  MODIFY `id_divisi` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
-
---
 -- AUTO_INCREMENT untuk tabel `failed_jobs`
 --
 ALTER TABLE `failed_jobs`
   MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT;
 
 --
--- AUTO_INCREMENT untuk tabel `jabatan`
---
-ALTER TABLE `jabatan`
-  MODIFY `id_jabatan` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
-
---
 -- AUTO_INCREMENT untuk tabel `jobs`
 --
 ALTER TABLE `jobs`
   MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT;
-
---
--- AUTO_INCREMENT untuk tabel `kriteria`
---
-ALTER TABLE `kriteria`
-  MODIFY `id_kriteria` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- AUTO_INCREMENT untuk tabel `migrations`
@@ -484,19 +405,7 @@ ALTER TABLE `migrations`
 -- AUTO_INCREMENT untuk tabel `penilaian`
 --
 ALTER TABLE `penilaian`
-  MODIFY `id_penilaian` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
-
---
--- AUTO_INCREMENT untuk tabel `sub_kriteria`
---
-ALTER TABLE `sub_kriteria`
-  MODIFY `id_sub_kriteria` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=18;
-
---
--- AUTO_INCREMENT untuk tabel `users`
---
-ALTER TABLE `users`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `id_penilaian` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- Ketidakleluasaan untuk tabel pelimpahan (Dumped Tables)

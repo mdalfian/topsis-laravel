@@ -7,12 +7,14 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\Session;
+use sirajcse\UniqueIdGenerator\UniqueIdGenerator;
 
 class JabatanController extends Controller
 {
     public function add_jabatan(Request $request)
     {
         $data = [
+            'id_jabatan' => UniqueIdGenerator::generate(['table' => 'jabatan', 'field' => 'id_jabatan', 'length' => 7, 'prefix' => 'JAB']),
             'nama_jabatan' => $request->input('nama_jabatan'),
             'id_divisi' => $request->input('divisi'),
         ];

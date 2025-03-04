@@ -7,16 +7,19 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\Session;
+use sirajcse\UniqueIdGenerator\UniqueIdGenerator;
 
 class KriteriaController extends Controller
 {
     public function add_kriteria(Request $request)
     {
         $data = [
+            'id_kriteria' => UniqueIdGenerator::generate(['table' => 'kriteria', 'field' => 'id_kriteria', 'length' => 7, 'prefix' => 'KRI']),
             'kode_kriteria' => $request->input('kode_kriteria'),
             'nama_kriteria' => $request->input('nama_kriteria'),
             'bobot_kriteria' => $request->input('bobot_kriteria'),
             'jenis_kriteria' => $request->input('jenis_kriteria'),
+            'kat_kriteria' => $request->input('kat_kriteria'),
         ];
 
         $kode = trim($request->input('kode_kriteria'));
@@ -57,6 +60,19 @@ class KriteriaController extends Controller
         echo json_encode($count);
     }
 
+    public function select_kriteria(Request $request)
+    {
+        $kat = $request->input('kat');
+
+        $data = [
+            'kriteria' => DB::table('kriteria')->where('kat_kriteria', $kat)->get(),
+            'sub_kriteria' => DB::table('sub_kriteria')->get()->sortByDesc('nilai'),
+            'mode' => $request->input('mode')
+        ];
+
+        return view('select_view', $data);
+    }
+
     public function edit_kriteria(Request $request, $id)
     {
         $data = [
@@ -93,6 +109,7 @@ class KriteriaController extends Controller
     public function add_sub_kriteria(Request $request, $id)
     {
         $data = [
+            'id_sub_kriteria' => UniqueIdGenerator::generate(['table' => 'sub_kriteria', 'field' => 'id_sub_kriteria', 'length' => 7, 'prefix' => 'SUB']),
             'nama_sub_kriteria' => $request->input('nama_sub_kriteria'),
             'nilai' => $request->input('nilai'),
             'id_kriteria' => $id

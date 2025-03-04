@@ -7,12 +7,14 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\Session;
+use sirajcse\UniqueIdGenerator\UniqueIdGenerator;
 
 class DivisiController extends Controller
 {
     public function add_divisi(Request $request)
     {
         $data = [
+            'id_divisi' => UniqueIdGenerator::generate(['table' => 'divisi', 'field' => 'id_divisi', 'length' => 7, 'prefix' => 'DIV']),
             'nama_divisi' => $request->input('nama_divisi'),
         ];
 

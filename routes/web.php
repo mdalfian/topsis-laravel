@@ -25,15 +25,18 @@ Route::middleware('auth')->group(function () {
     Route::get('admin/kriteria', [AdminController::class, 'kriteria'])->name('admin.kriteria');
     Route::post('kriteria/add', [KriteriaController::class, 'add_kriteria'])->name('add_kriteria');
     Route::post('kriteria/check', [KriteriaController::class, 'check_kriteria'])->name('check_kriteria');
+    Route::post('kriteria/select', [KriteriaController::class, 'select_kriteria'])->name('select_kriteria');
     Route::put('kriteria/edit{id}', [KriteriaController::class, 'edit_kriteria'])->name('edit_kriteria');
     Route::delete('kriteria/delete{id_kriteria}', [KriteriaController::class, 'delete_kriteria'])->name('delete_kriteria');
     Route::get('admin/sub_kriteria', [AdminController::class, 'sub_kriteria'])->name('admin.sub_kriteria');
     Route::post('sub_kriteria/add{id}', [KriteriaController::class, 'add_sub_kriteria'])->name('add_sub_kriteria');
     Route::post('sub_kriteria/check', [KriteriaController::class, 'check_sub'])->name('check_sub');
     Route::put('sub_kriteria/edit{id}', [KriteriaController::class, 'edit_sub_kriteria'])->name('edit_sub_kriteria');
+    Route::get('admin/edit/{mode}/{id}', [AdminController::class, 'edit'])->name('edit_view');
     Route::delete('sub_kriteria/delete{id_sub_kriteria}', [KriteriaController::class, 'delete_sub_kriteria'])->name('delete_sub_kriteria');
     Route::get('admin/alternatif', [AdminController::class, 'alternatif'])->name('admin.alternatif');
     Route::post('alternatif/add', [AlternatifController::class, 'add_alternatif'])->name('add_alternatif');
+    Route::post('alternatif/select', [AlternatifController::class, 'select_alt'])->name('select_alt');
     Route::post('alternatif/check', [AlternatifController::class, 'check_alternatif'])->name('check_alternatif');
     Route::put('alternatif/edit{id}', [AlternatifController::class, 'edit_alternatif'])->name('edit_alternatif');
     Route::delete('alternatif/delete{id_alternatif}', [AlternatifController::class, 'delete_alternatif'])->name('delete_alternatif');
@@ -41,7 +44,7 @@ Route::middleware('auth')->group(function () {
     Route::post('penilaian/input{id_alternatif}', [PenilaianController::class, 'add_penilaian'])->name('input_penilaian');
     Route::put('penilaian/edit', [PenilaianController::class, 'edit_penilaian'])->name('edit_penilaian');
     Route::get('admin/perhitungan', [AdminController::class, 'perhitungan'])->name('admin.perhitungan');
-    Route::get('admin/cetak/pdf', [PenilaianController::class, 'pdf'])->name('admin.cetak.pdf');
+    Route::get('admin/cetak/pdf{kat}', [PenilaianController::class, 'pdf'])->name('admin.cetak.pdf');
     Route::get('admin/user', [AdminController::class, 'user'])->name('admin.user');
     Route::post('user/add', [UserController::class, 'add_user'])->name('add_user');
     Route::put('user/edit{id}', [UserController::class, 'edit_user'])->name('edit_user');
@@ -87,7 +90,7 @@ Route::middleware('auth')->group(function () {
     Route::get('pemilik/perhitungan', [PemilikController::class, 'perhitungan'])->name('pemilik.perhitungan');
     Route::get('pemilik/profil', [PemilikController::class, 'profile'])->name('pemilik.profil');
     Route::put('pemilik/profil/edit{id}', [PemilikController::class, 'edit_profile'])->name('edit_profile');
-    Route::get('pemilik/cetak/pdf', [PenilaianController::class, 'pdf'])->name('pemilik.cetak.pdf');
+    Route::get('pemilik/cetak/pdf{kat}', [PenilaianController::class, 'pdf'])->name('pemilik.cetak.pdf');
 });
 
 Route::middleware('auth')->group(function () {
@@ -96,7 +99,7 @@ Route::middleware('auth')->group(function () {
     Route::get('karyawan/perhitungan', [KaryawanController::class, 'perhitungan'])->name('karyawan.perhitungan');
     Route::get('karyawan/profil', [KaryawanController::class, 'profile'])->name('karyawan.profil');
     Route::put('karyawan/profil/edit{id}', [KaryawanController::class, 'edit_profile'])->name('edit_profile');
-    Route::get('karyawan/cetak/pdf', [PenilaianController::class, 'pdf'])->name('karyawan.cetak.pdf');
+    Route::get('karyawan/cetak/pdf{kat}', [PenilaianController::class, 'pdf'])->name('karyawan.cetak.pdf');
 });
 
 Route::middleware('auth')->group(function () {
@@ -109,5 +112,5 @@ Route::middleware('auth')->group(function () {
     Route::get('leader/perhitungan', [LeaderController::class, 'perhitungan'])->name('leader.perhitungan');
     Route::get('leader/profil', [LeaderController::class, 'profile'])->name('leader.profil');
     Route::put('leader/profil/edit{id}', [LeaderController::class, 'edit_profile'])->name('edit_profile');
-    Route::get('leader/cetak/pdf', [PenilaianController::class, 'pdf'])->name('leader.cetak.pdf');
+    Route::get('leader/cetak/pdf{kat}', [PenilaianController::class, 'pdf'])->name('leader.cetak.pdf');
 });

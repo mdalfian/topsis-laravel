@@ -25,7 +25,7 @@ class LeaderController extends Controller
     {
         $data = [
             'title' => 'Alternatif',
-            'alternatif' => Alternatif::all(),
+            'alternatif' => DB::table('alternatif')->get(),
         ];
 
         return view('leader.alternatif', $data);

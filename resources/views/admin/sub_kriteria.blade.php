@@ -5,7 +5,26 @@
 <!-- Begin Page Content -->
 <div class="container-fluid">
 
-    <?php foreach ($kriteria as $kri) : ?>
+    <div class="card shadow mb-4">
+        <div class="card-body">
+         {{-- Select Kriteria --}}
+         <div class="alert alert-warning" role="alert" id="alert">
+            Pilih kategori <b>Kriteria</b> dibawah ini!!!
+          </div>
+        <div class="controls mb-3">
+            <select name="kat_kriteria" id="kat_kriteria"
+                class="form-control bg-light small" onchange="selectKriteria('sub')" autofocus>
+                <option value="">Pilih...</option>
+                <option value="1">Staff</option>
+                <option value="2">Sales</option>
+            </select>
+        </div>
+    </div>
+    </div>
+
+    <div class="select-kriteria"></div>
+
+    {{-- <?php foreach ($kriteria as $kri) : ?>
 
     <!-- Content -->
     <div class="card shadow mb-4">
@@ -164,7 +183,7 @@
         </div>
     </div>
 
-    <?php endforeach; ?>
+    <?php endforeach; ?> --}}
 
 </div>
 <!-- /.container-fluid -->
