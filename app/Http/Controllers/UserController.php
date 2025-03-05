@@ -13,6 +13,7 @@ class UserController extends Controller
     public function add_user(Request $request)
     {
         $data = [
+            'id' => UniqueIdGenerator::generate(['table' => 'users', 'field' => 'id', 'length' => 7, 'prefix' => 'USR']),
             'name' => $request->input('nama_lengkap'),
             'username' => $request->input('username'),
             'password' => password_hash($request->input('password'), PASSWORD_BCRYPT, ['cost' => 12]),
