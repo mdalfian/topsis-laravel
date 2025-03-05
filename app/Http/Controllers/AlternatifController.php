@@ -46,8 +46,8 @@ class AlternatifController extends Controller
         $kat = $request->input('kat');
 
         $data = [
-            'kriteria' => Kriteria::where('kat_kriteria', $kat)->get(),
-            'alternatif' => Alternatif::where('level_alternatif', $kat)->get(),
+            'kriteria' => DB::table('kriteria')->where('kat_kriteria', $kat)->get(),
+            'alternatif' => DB::table('alternatif')->where('level_alternatif', $kat)->get(),
             'sub_kriteria' => DB::table('sub_kriteria')->get()->sortByDesc('nilai'),
             'mode' => 'rank',
             'penilaian' => DB::table('penilaian')

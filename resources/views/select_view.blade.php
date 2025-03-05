@@ -363,6 +363,7 @@
                             <td><?= $per->nama_alternatif ?></td>
                             <?php foreach ($kriteria as $kri) : ?>
                             <?php foreach ($penilaian as $nilai) : ?>
+
                             <?php if ($nilai->id_kriteria == $kri->id_kriteria && $nilai->id_alternatif == $per->id_alternatif) : ?>
                             <td class="text-center"><?= $nilai->nilai ?></td>
                             <?php endif; ?>
@@ -390,13 +391,9 @@
                         <?php endforeach; ?>
                     </thead>
                     <tbody>
-                        <tr>
-                            <?php foreach ($kriteria as $kri) : ?>
+                        <tr> 
                             <?php foreach ($kriteria as $kr) : ?>
-                            <?php if ($kri->id_kriteria == $kr->id_kriteria) : ?>
                             <td class="text-center"><?= $kr->bobot_kriteria ?></td>
-                            <?php endif; ?>
-                            <?php endforeach; ?>
                             <?php endforeach; ?>
                         </tr>
                     </tbody>
